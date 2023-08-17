@@ -1,22 +1,17 @@
-##instructions
 ## open powershell window as administrator or Shift + Right Clickopen powershell window. 
 ## rename all files if there are spaces in the filenames. 
 Dir | Rename-Item –NewName { $_.name –replace “ “,”_” } 
 
-## add pre-fix to all files in a folder in powershell
-(Get-ChildItem -File) | Rename-Item -NewName { "T004_OB_" + $_.Name }
+## add pre-fix to all files in a folder in powershell (optional)
+#(Get-ChildItem -File) | Rename-Item -NewName { "T004_OB_" + $_.Name }
 
 ## start comand line within powershell
 cmd
 
-## Functional 2023.1.6 ffmpeg downsampling videos to reduce size of videos from lorex videos without smi files. modifed from R script. 
-## -crf defaults to 23. range is 0-51, with 0 =highest quality, 51 = lowest quality. 
-for %i in (*.mp4) do ffmpeg -i "%i" -vcodec libx265 -preset ultrafast -crf 23 -pix_fmt yuv420p -an -r 30 - max_muxing_queue_size 100000000 "%~ni.mp4"
-
-
 ## Functional for downsampling and adding subtitles from iDVR-pro videos that come with .smi files
-for %i in (*.avi) do ffmpeg -i "%i" -vcodec libx265 -an -r 15 -vf "scale=1920:1080:force_original_aspect_ratio=decrease:eval=frame,pad=1920:1080:-1:-1:color=black,format=gray,subtitles="%~ni.smi":force_style='FontSize=10,Alignment=1,BorderStyle=3,Outline=1,Shadow=0,MarginV=20'" "%~ni.mp4"
+for %i in (*.avi) do ffmpeg -i "%i" -vcodec libx265 -preset ultrafast -crf 15 -pix_fmt yuv420p -an -r 30 -vf "scale=1920:1080:force_original_aspect_ratio=decrease:eval=frame,pad=1920:1080:-1:-1:color=black,format=gray,subtitles="%~ni.smi":force_style='FontSize=10,Alignment=1,BorderStyle=3,Outline=1,Shadow=0,MarginV=20'" "%~ni.mp4"
 
+## Old notes and old code
 # - note that running loop on server videos can limit top speeds. but this code should run at about 7x speed. 
 # - converting from libx264 to libx265 drastically reduces the file size with minimal tradeoffs in quality, but cuts speed in half. 
 #-crf 25 results in a video that is basically the same quality, but with an insanely smaller file size. use this.
@@ -33,9 +28,6 @@ for %i in (*.avi) do ffmpeg -i "%i" -vcodec libx265 -an -r 15 -vf "scale=1920:10
 
 ## FFMPEG Video clip Trimming
 ffmpeg -i T004_A8_FULL.avi -c copy -q 3 -ss 00:50:49 -t 00:01:00 output.avi
-
-
-
 
 #4x. 630mb > 30mb. 15fps (I cannot tell the difference. I suspect the 30fps videos are "fake" 30 fps. repeated frames or something. ). Quality is equivalent. 
 for %i in (*.avi) do ffmpeg -i "%i" -vcodec libx265 -an -vf "scale=1920:1080:force_original_aspect_ratio=decrease:eval=frame,pad=1920:1080:-1:-1:color=black,format=gray,subtitles="%~ni.smi":force_style='FontSize=10,Alignment=1,BorderStyle=3,Outline=1,Shadow=0,MarginV=20'" "%~ni.mp4"
