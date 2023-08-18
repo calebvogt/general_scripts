@@ -1,4 +1,3 @@
-
 ### MODIFIED FROM: https://colab.research.google.com/github/murthylab/sleap-notebooks/blob/master/Analysis_examples.ipynb#scrollTo=lZ9wU0jzM8Pb
 
 import os

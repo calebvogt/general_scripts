@@ -1,4 +1,3 @@
-## batch_sleap_h5_convert.py
 ## https://sleap.ai/api/sleap.io.convert.html?highlight=io%20convert#module-sleap.io.convert
 ## https://sleap.ai/notebooks/Analysis_examples.html
 
