@@ -4,7 +4,6 @@ library(data.table)
 library(zoo)
 library(beepr)
 
-## testing
 wd <- setwd("Y:/Data/FieldProject/video_behavior_sleap/2_ephys_rig_low_quality/simba/project_folder/csv/input_csv")
 filenames <- list.files(wd,pattern="*.csv")
 aa=1
