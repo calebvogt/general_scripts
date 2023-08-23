@@ -1,6 +1,6 @@
 ## open powershell window as administrator or Shift + Right Clickopen powershell window. 
 ## rename all files if there are spaces in the filenames. 
-Dir | Rename-Item –NewName { $_.name –replace “ “,”_” } 
+Dir | Rename-Item –NewName { $_.name –replace “ “,”_” }
 
 ## add pre-fix to all files in a folder in powershell (optional)
 #(Get-ChildItem -File) | Rename-Item -NewName { "T004_OB_" + $_.Name }

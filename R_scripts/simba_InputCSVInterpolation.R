@@ -4,13 +4,11 @@ library(data.table)
 library(zoo)
 library(beepr)
 
-## functional
-wd <- setwd("Y:/Data/FieldProject/video_behavior_sleap/2_ephys_rig_low_quality/simba/project_folder/csv/input_csv") ## confirm that it switched.
+wd <- setwd("Y:/Data/FieldProject/video_behavior_sleap/3_liddell_bucket/simba/project_folder/csv/input_csv") ## confirm that it switched.
 dir.create("proc")
 filenames <- list.files(wd,pattern="*.csv") ## these should be csvs resulting from recent import of .h5 files into simba. Check if there are added header rows, adjust line 13 if needed. 
-aa=2
+aa=1
 for(aa in 1:length(filenames)){
-  print(paste("Started converting file",filenames[[aa]]))
   df <- fread(filenames[aa],header=T,skip=2) ## read in the file, drop the any header rows added by simba
   df[df==0] <- NA
   df[df=="0.0"] <- NA # replace frame 0 NA with 0 again
@@ -26,11 +24,11 @@ for(aa in 1:length(filenames)){
   sub_df <- df[first_row:nrow(df),] ## get rows where mouse is detected 
   filled_df <- as.data.table(zoo::na.fill(sub_df, "extend")) ## smooth linear interpolation of mouse rows
   df[first_row:nrow(df),] <- filled_df ## rejoin interpolated data with the initial empty frames. 
-  df[is.na(df)] <- 0 ## required by simba v1.71.7 for BPs not visible.... annoying af. 
+  df[is.na(df)] <- 0 ## required by simba v1.71.7 for non-visible keypoints
+  
+  
   colnames(df)[1] <- "" ## make empty cell for first column name to help with simba reading. 
   write.table(df,paste0("proc/",filenames[aa]),row.names=F,col.names=T,sep =",")
-  # write.table(df,paste0(wd,"/",filenames[aa]),row.names=F,col.names=T,sep =",")
-  beepr::beep(1)
   print(paste("Finished converting file",filenames[[aa]]))
 }
 beepr::beep(4)
