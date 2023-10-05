@@ -1,6 +1,8 @@
 ## Drop this file into the folder with videos already with hardsubs
 #that need to be batch appended, then run it by double clicking the
 ##.py file or hitting F5
+## this script requires that ffmpeg has been installed and assigned to PATH via environmental variables.
+## See: https://www.youtube.com/watch?v=ZiBxRDsrCW8&ab_channel=AmazingRDP 
 
 import os
 
