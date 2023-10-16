@@ -5,11 +5,16 @@ Dir | Rename-Item –NewName { $_.name –replace “ “,”_” }
 ## add pre-fix to all files in a folder in powershell (optional)
 #(Get-ChildItem -File) | Rename-Item -NewName { "T004_OB_" + $_.Name }
 
-## start comand line within powershell
+## start command line within powershell
 cmd
 
 ## Functional for downsampling and adding subtitles from iDVR-pro videos that come with .smi files
 for %i in (*.avi) do ffmpeg -i "%i" -vcodec libx265 -preset ultrafast -crf 15 -pix_fmt yuv420p -an -r 30 -vf "scale=1920:1080:force_original_aspect_ratio=decrease:eval=frame,pad=1920:1080:-1:-1:color=black,format=gray,subtitles="%~ni.smi":force_style='FontSize=10,Alignment=1,BorderStyle=3,Outline=1,Shadow=0,MarginV=20'" "%~ni.mp4"
+
+## concatenate videos in a folder
+(for %i in (*.mp4) do @echo file '%i') > mylist.txt && ffmpeg -f concat -safe 0 -i mylist.txt -c copy output.mp4
+
+
 
 ## Old notes and old code
 # - note that running loop on server videos can limit top speeds. but this code should run at about 7x speed. 
